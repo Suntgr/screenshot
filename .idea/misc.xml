@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="Jenkins.Application.Settings">
+    <option name="serverUrl" value="http://192.168.199.176:8080/" />
+  </component>
+  <component name="Jenkins.Settings">
+    <option name="username" value="wangnew2013" />
+  </component>
+  <component name="VagrantProjectSettings">
+    <option name="instanceFolder" value="E:\02Project\02Work\02common_Homestead" />
+    <option name="provider" value="" />
+  </component>
+</project>

@@ -10,12 +10,9 @@ let baseStorageDir = process.argv[3];
     headless: true,
     userDataDir: __dirname + '/cache'
   });
-  console.time('goto');
   const page = await browser.newPage();
   await page.emulate(devices['iPhone 6']);
-  console.timeEnd('goto');
   app.get('/screenshot', async (req, res) => {
-    console.log(req.query.page)
     try {
       await page.goto(decodeURIComponent(req.query.page));
       await page.screenshot({path: `${baseStorageDir}/${req.query.filename}.png`, fullPage: true});
@@ -33,7 +30,3 @@ let baseStorageDir = process.argv[3];
 app.listen(3000, function () {
   console.log('listening on port 3000')
 })
-
-
-
-
