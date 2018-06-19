@@ -1,0 +1,21 @@
+{
+  "name": "myapp",
+  "bin": {
+    "myapp": "myapp"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "express": "^4.15.2",
+    "http-proxy-middleware": "^0.17.4",
+    "image-size": "^0.6.3",
+    "puppeteer": "^1.5.0"
+  }
+}
