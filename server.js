@@ -15,18 +15,34 @@ let baseStorageDir = process.argv[3];
   app.get('/screenshot', async (req, res) => {
     try {
       await page.goto(decodeURIComponent(req.query.page));
-      await page.screenshot({path: `${baseStorageDir}/${req.query.filename}.png`, fullPage: true});
-      let dimensions = await sizeOf(`${baseStorageDir}/${req.query.filename}.png`);
+      let screenPage
+      if (req.query.selector) {
+        let selector = decodeURIComponent(req.query.selector)
+        let element = await page.$(selector)
+        let boundingBox = await element.boundingBox()
+        screenPage = await page.screenshot({
+          path: `${baseStorageDir}/${req.query.filename}.png`,
+          fullPage: false,
+          clip: boundingBox
+        });
+      } else {
+        screenPage = await page.screenshot({
+          path: `${baseStorageDir}/${req.query.filename}.png`,
+          fullPage: true
+        });
+      }
+      let dimensions = await sizeOf(screenPage);
       res.status(200).send({
         url: `${baseUrl}/${req.query.filename}.png`,
         width: dimensions.width,
         height: dimensions.height
       });
-    } catch (err) {
-      res.status(500).send({msg: '生成图片失败'});
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({msg: error.message});
     }
   })
 })();
 app.listen(3000, function () {
   console.log('listening on port 3000')
-})
+});
