@@ -10,10 +10,11 @@ let baseStorageDir = process.argv[3];
     headless: true,
     userDataDir: __dirname + '/cache'
   });
-  const page = await browser.newPage();
-  await page.emulate(devices['iPhone 6']);
+
   app.get('/screenshot', async (req, res) => {
     try {
+      let page = await browser.newPage();
+      await page.emulate(devices['iPhone 6']);
       await page.goto(decodeURIComponent(req.query.page));
       let screenPage
       if (req.query.selector) {
