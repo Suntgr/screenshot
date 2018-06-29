@@ -12,8 +12,9 @@ let baseStorageDir = process.argv[3];
   });
 
   app.get('/screenshot', async (req, res) => {
+    let page
     try {
-      let page = await browser.newPage();
+      page = await browser.newPage();
       await page.emulate(devices['iPhone 6']);
       await page.goto(decodeURIComponent(req.query.page));
       let screenPage
@@ -42,6 +43,7 @@ let baseStorageDir = process.argv[3];
       console.error(error)
       res.status(500).send({msg: error.message});
     }
+    page.close()
   })
 })();
 app.listen(3000, function () {
