@@ -40,24 +40,26 @@ let baseStorageDir = process.argv[3];
             }
           }
           let screenPage
+          let type = req.query.type === 'jpeg' ? 'jpeg' : 'png'
+          let options = {
+            path: `${baseStorageDir}/${req.query.filename}.${type}`,
+            type: type,
+            fullPage: true
+          }
+          if (type === 'jpeg') {
+            options.quality = req.query.quality ? parseInt(req.query.quality) : 100
+          }
           if (req.query.selector) {
             let selector = decodeURIComponent(req.query.selector)
             let element = await page.$(selector)
             let boundingBox = await element.boundingBox()
-            screenPage = await page.screenshot({
-              path: `${baseStorageDir}/${req.query.filename}.png`,
-              fullPage: false,
-              clip: boundingBox
-            });
-          } else {
-            screenPage = await page.screenshot({
-              path: `${baseStorageDir}/${req.query.filename}.png`,
-              fullPage: true
-            });
+            options.fullPage = false
+            options.clip = boundingBox
           }
+          screenPage = await page.screenshot(options);
           let dimensions = await sizeOf(screenPage);
           res.status(200).send({
-            url: `${baseUrl}/${req.query.filename}.png`,
+            url: `${baseUrl}/${req.query.filename}.${type}`,
             width: dimensions.width,
             height: dimensions.height
           });
